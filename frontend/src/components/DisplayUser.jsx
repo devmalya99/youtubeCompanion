@@ -17,11 +17,11 @@ function DisplayUser() {
 
   return (
     <>
-      {user ? (
-        <ShowUserDetails user={user} />
-      ) : (
+      
+        {/* <ShowUserDetails user={user} /> */}
+      
         <Login />
-      )}
+      
      
     </>
   )

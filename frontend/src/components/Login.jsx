@@ -1,6 +1,6 @@
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import {jwt_decode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const handleLoginSuccess = async (credentialResponse) => {
@@ -9,31 +9,30 @@ const Login = () => {
       console.log("✅ Google ID Token:", idToken);
 
       // Decode the ID token to get user info
-      const decodedToken = jwt_decode(idToken);
+      const decodedToken = jwtDecode(idToken);  // This should now work
       console.log("🔍 Decoded token:", decodedToken);
 
       // Send ID token to your backend for verification
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/auth/google`,
         { token: idToken },
-        { withCredentials: true } // Important for cookies if using them
+        { withCredentials: true }
       );
+
+      console.log("response after google login",response)
 
       // The backend should return both user info and OAuth token
       const { user, oauthToken } = response.data;
 
       // Store user info and OAuth token in localStorage
       localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("oauthToken", oAuthToken);
+      localStorage.setItem("oauthToken", oauthToken);
 
-      console.log("🔑 OAuth Token stored:", oAuthToken);
+      console.log("🔑 OAuth Token stored:", oauthToken);
       console.log("👤 Logged in user:", user);
-
-     
 
     } catch (error) {
       console.error("❌ Google login error:", error);
-      // Handle error (show message to user, etc.)
     }
   };
 
@@ -43,10 +42,9 @@ const Login = () => {
         onSuccess={handleLoginSuccess}
         onError={() => {
           console.error("❌ Google Login Failed");
-          // Optionally show error message to user
         }}
         useOneTap
-        auto_select // Optional: automatically select the account if only one is available
+        auto_select
       />
     </div>
   );

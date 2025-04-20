@@ -12,7 +12,12 @@ const client = new OAuth2Client();
 const app = express();
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:5173', // Specify your frontend origin
+    credentials: true, // Allow credentials
+  };
+  
+app.use(cors(corsOptions))
 app.use(express.json());
 
 // Routes
